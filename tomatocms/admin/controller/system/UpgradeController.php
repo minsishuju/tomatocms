@@ -446,8 +446,46 @@ class UpgradeController extends Controller
                 'version'=>APP_VERSION,'release'=>RELEASE_TIME
             ];
             $res=json_decode(get_url($this->server.'/index/version/index/get_current_md5list',$data),true);
+            if(!$res['code'])
+            {
+                $this->log($res['msg']);
+                json(0, $res['msg']);
+            }
+
+            $res = array_column($res['data'],'md5', 'path');
+
             $files = $this->getLoaclList(ROOT_PATH,['.','..','.idea','.git']);
-            var_dump($files);
+
+            $file_data=[];//不一致的文件数组
+            foreach ($files as $key => $items)
+            {
+
+                $safe_key= str_replace(ROOT_PATH,'',$items['path']);
+                if($items['md5']!=$res[$safe_key])
+                {
+                    $items['mark']='文件不一致';
+                    $file_data[]=$items;
+                }
+                unset($files[$key],$res[$safe_key]);
+            }
+            if(count($res)>0)
+            {
+                foreach ($res as $kk=>$vv)
+                {
+                    $file_data[]=['path'=>$kk,'md5'=>$vv,'mark'=>'远程独有'];
+                }
+            }
+            if( count($files)>0)
+            {
+                foreach ($res as $vv)
+                {
+                    $vv['mark']='本地独有';
+                    $file_data[]=$vv;
+                }
+            }
+
+
+            var_dump($file_data);die();
         }
 
         $this->assign('branch', $this->branch);
