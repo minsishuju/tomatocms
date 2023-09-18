@@ -1,0 +1,196 @@
+{include file='common/head.html'}
+
+<div class="layui-body">
+    {if([$list])}
+    <div class="layui-tab layui-tab-brief" lay-filter="tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this" lay-id="t1">自建文件列表</li>
+            <li lay-id="t2">新增自建文件</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                     <table class="layui-table">
+                        <thead>
+                        <tr>
+                            {foreach $title(key,value)}
+                            <th>[value]</th>
+                            {/foreach}
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                       {foreach $list_record(key,value)}
+                        <tr>
+                            <td>[value['id']]</td>
+                            <td>[value['group']]</td>
+                            <td>{$homeurl}[value['path']]</td>
+                            <td>[value['desc']]</td>
+                            <td>[value['update']]</td>
+                            <td>{if($value['is_del']=='y')}可删除{else}不可删除{/if}</td>
+                            <td>
+                                {if($value['is_del']=='y')} {fun=get_btn_del($key)}{/if}
+<!--                                {fun=get_btn_mod($value->id)}-->
+                            </td>
+                        </tr>
+                        {/foreach}
+                        </tbody>
+                    </table>
+                <div class="page">{$pagebar}</div>
+            </div>
+            <div class="layui-tab-item">
+                <form action="{url./admin/Sysfile/createfile}" method="post" class="layui-form">
+                    <input type="hidden" name="formcheck" value="{$formcheck}" >
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文件分组</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="group" required  list="greetings" lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+                        </div>
+                        <datalist id="greetings" style="display:none;">
+                             {foreach $group(key,value)}
+                             <option value="[value]" >[value]</option>
+                             {/foreach}
+                        </datalist>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">名称类型</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="filename" required  lay-verify="required" placeholder="请输入名称"  class="layui-input">
+                        </div>
+                        <div class="layui-input-inline">
+                            <select name="filetype" lay-verify="required" lay-search>
+                                <option value="">选择文件格式</option>
+                                <option value="html">html</option>
+                                <option value="txt">txt</option>
+                                <option value="htm">htm</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">存储位置</label>
+                        <div class="layui-input-inline">
+                            <select name="filepath" lay-verify="required" lay-search>
+                                <option value="">选择存储的文件路径</option>
+                                {foreach $filepath(key,value)}
+                                <option value="[value]" >[value]</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">作用描述</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="remark" required  lay-verify="required" placeholder="简短说明该文件的用处"  class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文件属性</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="is_del" value="n" title="不可删除">
+                            <input type="radio" name="is_del" value="y" title="可以删除" checked>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">文件内容</label>
+                        <div class="layui-input-block">
+                            <textarea name="filecontent" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit>立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {/if}
+
+    {if([$mod])}
+    <div class="layui-tab layui-tab-brief" lay-filter="tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">文件内容修改</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form action="{url./admin/Sysfile/mod/id/'.[$get.id].'}{$backurl}" method="post" class="layui-form">
+                    <input type="hidden" name="formcheck" value="{$formcheck}" >
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文件分组</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="group" required value="{$content->group}" list="greetings" lay-verify="required" placeholder="请输入输入框内容" autocomplete="off" class="layui-input">
+
+                        </div>
+                        <div class="layui-input-inline"><p>如果要更换分组，先删除原有的内容，再进行选择或是直接填写</p></div>
+                        <datalist id="greetings" style="display:none;">
+                            {foreach $group(key,value)}
+                            <option value="[value]" >[value]</option>
+                            {/foreach}
+                        </datalist>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">名称类型</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="filename" required value="{$content->filename}" lay-verify="required" placeholder="请输入名称"  class="layui-input">
+                        </div>
+                        <div class="layui-input-inline">
+                            <select name="filetype" lay-verify="required" lay-search>
+                                <option value="">选择文件格式</option>
+                                <option value="html" {if([$content->filetype]=='html')}selected{/if}>html</option>
+                                <option value="txt" {if([$content->filetype]=='txt')}selected{/if}>txt</option>
+                                <option value="htm" {if([$content->filetype]=='htm')}selected{/if}>htm</option>
+                                <option value="md" {if([$content->filetype]=='md')}selected{/if}>md</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">存储位置</label>
+                        <div class="layui-input-inline">
+                            <select name="filepath" lay-verify="required" lay-search>
+                                <option value="">选择存储的文件路径</option>
+                                {foreach $filepath(key,value)}
+                                <option value="[value]" {if([$content->filecata]==$value)}selected{/if}>[value]</option>
+                                {/foreach}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">作用描述</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="remark" required value="{$content->remark}"  lay-verify="required" placeholder="简短说明该文件的用处"  class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文件属性</label>
+                        <div class="layui-input-inline">
+                            <input type="radio" name="del" value="no" title="不可删除" {if([$content->del]=='no')}checked{/if}>
+                            <input type="radio" name="del" value="yes" title="可以删除" {if([$content->del]=='yes')}checked{/if}>
+                        </div>
+                    </div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">文件内容</label>
+                        <div class="layui-input-block">
+                            <textarea name="filecontent" placeholder="请输入内容" class="layui-textarea">{$contentdata}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" lay-submit>立即提交</button>
+                            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            {fun=get_btn_back()}
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    {/if}
+</div>
+{include file='common/foot.html'}

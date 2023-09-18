@@ -1,0 +1,43 @@
+{include file='common/head.html'}
+<style>
+    .layui-textarea{
+        width: 800px;
+        height: 450px;
+    }
+    .layui-form-text{
+        text-align: center;
+    }
+</style>
+<div class="layui-body">
+    <div class="layui-tab layui-tab-brief" lay-filter="tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this" lay-id="t1">Robots文件内容编辑</li>
+        </ul>
+
+        <div class="layui-tab-content">
+            <p style="width: 900px;text-align: center;padding: 20px">本站的Robots文件上次编辑时间：{$robottime}</p>
+            <form action="{url./admin/Robots}" method="post" class="layui-form">
+               <input type="hidden" name="formcheck" value="{$formcheck}" >
+                <div class="layui-form-item layui-form-text"> <label class="layui-form-label">文件内容</label>
+                    <textarea name="robots" required lay-verify="required" placeholder="请输入Robots文件内容" class="layui-textarea">{$robotcontent}</textarea>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit>立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+            <p style="width: 900px;text-align: left;padding: 5px 20px;color: red">1.Robots文件内容建议在其它地方写好，复制到上面文本框内</p>
+            <p style="width: 900px;text-align: left;padding: 5px 20px;color: red">2.Robots内容规则：点击查看  <a href="https://ziyuan.baidu.com/college/courseinfo?id=267&page=12#h2_article_title28">robots文件及格式说明</a> </p>
+        </div>
+
+    </div>
+</div>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form,layedit = layui.layedit;
+    })
+</script>
+{include file='common/foot.html'}

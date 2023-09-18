@@ -1,0 +1,41 @@
+{include file='common/head.html'}
+<div class="layui-body">
+    <div class="layui-tab layui-tab-brief" lay-filter="tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this" lay-id="t1">蜘蛛来访记录</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <table class="layui-table mt0">
+                    <thead>
+                        <tr>
+                            <th width="40">序号</th>
+                            <th>事件内容</th>
+                            <th width="130">来访IP</th>
+                            <th width="80">操作系统</th>
+                            <th width="80">浏览器</th>
+                            <th width="130">来访时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {foreach $spiderlogs(key,value,num)}
+                        <tr>
+                            <td>[num]</td>
+                            <td>[value->event]</td>
+                            <td><a href="http://ip.taobao.com/ipSearch.html?ipAddr={fun=long2ip($value->user_ip)}" target="_blank" title="点击查看归属地">{fun=long2ip($value->user_ip)}</a></td>
+                            <td>[value->user_os]</td>
+                            <td>[value->user_bs]</td>
+                            <td>[value->create_time]</td>
+                        </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+                {if(check_level('del'))}
+                <a href="{url./admin/Spider/clear}" class="layui-btn layui-btn-sm" onclick='return confirm("您确定要清空么？")'>清空全部记录</a>
+                {/if}
+                <div class="page">{$pagebar}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file='common/foot.html'}
