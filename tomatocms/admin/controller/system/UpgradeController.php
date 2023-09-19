@@ -439,6 +439,7 @@ class UpgradeController extends Controller
     //比对文件
     public function compareFile()
     {
+        //在进行比较的时候，不是很准确
         if(is_ajax()){
             $data=[
                 'branch'=> $this->branch,'ip'=>isset($_SERVER['LOCAL_ADDR']) ? $_SERVER['LOCAL_ADDR'] : $_SERVER['SERVER_ADDR'],
@@ -454,12 +455,11 @@ class UpgradeController extends Controller
 
             $res = array_column($res['data'],'md5', 'path');
 
-            $files = $this->getLoaclList(ROOT_PATH,['.','..','.idea','.git']);
+            $files = $this->getLoaclList(ROOT_PATH,['.','..','.idea','.git','runtime','template']);
 
             $file_data=[];//不一致的文件数组
             foreach ($files as $key => $items)
             {
-
                 $safe_key= str_replace(ROOT_PATH,'',$items['path']);
                 if($items['md5']!=$res[$safe_key])
                 {
@@ -468,29 +468,27 @@ class UpgradeController extends Controller
                 }
                 unset($files[$key],$res[$safe_key]);
             }
-            if(count($res)>0)
-            {
-                foreach ($res as $kk=>$vv)
-                {
-                    $file_data[]=['path'=>$kk,'md5'=>$vv,'mark'=>'远程独有'];
-                }
-            }
-            if( count($files)>0)
-            {
-                foreach ($res as $vv)
-                {
-                    $vv['mark']='本地独有';
-                    $file_data[]=$vv;
-                }
-            }
-
-
-            var_dump($file_data);die();
+//            if(count($res)>0)
+//            {
+//                foreach ($res as $kk=>$vv)
+//                {
+//                    $file_data[]=['path'=>$kk,'md5'=>$vv,'mark'=>'远程独有'];
+//                }
+//            }
+//            if( count($files)>0)
+//            {
+//                foreach ($res as $vv)
+//                {
+//                    $vv['mark']='本地独有';
+//                    $file_data[]=$vv;
+//                }
+//            }
+            json(1,$file_data,'数据获取成功');
         }
 
         $this->assign('branch', $this->branch);
-        $this->assign('force', $this->force);
-        $this->display('system/upgrade_list.html');
+        $this->assign('root_path', ROOT_PATH);
+        $this->display('system/safe_list.html');
 
     }
 }

@@ -1,0 +1,44 @@
+{include file='common/head.html'}
+
+<div class="layui-body">
+  <div class="layui-tab layui-tab-brief" lay-filter="tab">
+    <div class="layui-tab-content">
+      <div class="layui-tab-item layui-show">
+        <table id="ver_list" class="layui-table" lay-filter="ver_list"></table>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/html" id="barDemo">
+
+</script>
+
+{include file='common/foot.html'}
+<script>
+  layui.use('table', function(){
+    var table = layui.table;
+    var rootpath='{$root_path}';
+    //第一个实例
+    table.render({
+      elem: '#ver_list'
+      ,url: window.location.href //数据接口
+      ,method:'post'
+      ,page: false //开启分页
+      ,cols: [[ //表头
+        {type: 'checkbox', fixed: 'left'}
+        ,{field: 'path', title: '文件路径', align:'left',width: 600,templet:function(d){return d.path.replace(rootpath,'')}}
+        ,{field: 'mark', title: '文件说明', align:'center'}
+        ,{field: 'ctime', title: '创建时间', align:'center'}
+        ,{fixed: 'right', title:'操作', width: 125, minWidth: 125, toolbar: '#barDemo'}
+      ]]
+      ,response: {
+        statusName: 'code'
+        ,statusCode: 1 //规定成功的状态码，默认：0
+        ,msgName: 'tourl' //规定状态信息的字段名称，默认：msg
+        ,countName: 'rowtotal' //规定数据总数的字段名称，默认：count
+        ,dataName: 'data' //规定数据列表的字段名称，默认：data
+      }
+    });
+
+  });
+</script>
