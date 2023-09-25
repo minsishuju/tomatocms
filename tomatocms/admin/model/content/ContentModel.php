@@ -383,7 +383,7 @@ class ContentModel extends Model
         $scodes = $this->getSubScodes($scode);
         return parent::table('ay_content a')->field($fields)
             ->where("b.mcode='$mcode'")
-            ->where('d.type=2 OR d.type is null ')
+//            ->where('d.type=2 OR d.type is null ')
             ->where("a.acode='" . session('acode') . "'")
             ->in('a.scode', $scodes)
             ->like('a.title', $keyword)
