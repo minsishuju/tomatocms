@@ -428,7 +428,9 @@
 											foreach ($contents as $value2) {
 											if(array_key_exists('2',$related)){
 											$value3=(array)$value2;
+											if($value3[$related[2]]){
 											echo '<input type="radio" name="'.$value->name.'[]" value="'.$value2->id.'" title="'.$value3[$related[2]].'">';
+											}
 											}else{
 											echo '<input type="radio" name="'.$value->name.'[]" value="'.$value2->id.'" title="'.$value2->title.'">';
 											}
@@ -966,9 +968,10 @@
 
 											if(array_key_exists('2',$related)){
 											$value3=(array)$value2;
+											if($value3[$related[2]]){
 											echo '<input type="radio" name="'.$value->name.'[]" value="'.$value2->id.'" title="'.$value3[$related[2]].'"';
 											if(in_array($value2->id,$values)){ echo 'checked';}
-											echo '>';
+											echo '>';}
 											}else{
 											echo '<input type="radio" name="'.$value->name.'[]" value="'.$value2->id.'" title="'.$value2->title.'"';
 											if(in_array($value2->id,$values)){ echo 'checked';}

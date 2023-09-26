@@ -52,7 +52,7 @@ class ParserController extends Controller
         $content = str_replace('{pboot:pagekeywords}', '{pboot:sitekeywords}', $content);
         $content = str_replace('{pboot:pagedescription}', '{pboot:sitedescription}', $content);
         $content = str_replace('{pboot:keyword}', get('keyword', 'vars'), $content); // 当前搜索的关键字
-                                                                                     
+
         $content = $this->parserSiteLabel($content); // 站点标签
         $content = $this->parserCompanyLabel($content); // 公司标签
         $content = $this->parserMemberLabel($content); // 会员标签
@@ -74,7 +74,7 @@ class ParserController extends Controller
 
         $content = $this->parserQrcodeLabel($content); // 二维码生成
         $content = $this->parserPageLabel($content); // CMS分页标签解析(需置后)
-	// 解析个人扩展标签，升级不覆盖
+	    // 解析个人扩展标签，升级不覆盖
         if (file_exists(APP_PATH . '/home/controller/ExtLabelController.php')) {
             if (class_exists('app\home\controller\ExtLabelController')) {
                 $extlabel = new ExtLabelController();

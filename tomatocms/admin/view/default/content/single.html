@@ -386,11 +386,15 @@
 										{php}
 										$related=explode(',',$value->value);
 										$contents = get_list($related[0],$related[1]);
-										$name=$value->name;
-										echo '<input name="'.$value->name.'" type="hidden">';//占位清空
-										$values=explode(',',$this->vars['content']->$name);
 										foreach ($contents as $value2) {
+										if(array_key_exists('2',$related)){
+										$value3=(array)$value2;
+										if($value3[$related[2]]){
+										echo '<input type="radio" name="'.$value->name.'[]" value="'.$value2->id.'" title="'.$value3[$related[2]].'">';
+										}
+										}else{
 										echo '<input type="radio" name="'.$value->name.'[]" value="'.$value2->id.'" title="'.$value2->title.'">';
+										}
 										}
 										{/php}
 									</div>
