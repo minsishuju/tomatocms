@@ -115,7 +115,10 @@
 	                     <label class="layui-form-label">选择按钮值</label>
 	                     <div class="layui-input-block">
 	                     	<textarea name="value" placeholder="多个选项用逗号隔开或者回车"  class="layui-textarea"></textarea>
-	                     	<div class="layui-form-mid layui-word-aux">只在类型为单选或多选时填写有效。<span style="color: red;">关联字段需输入【关联的模型id,关联的栏目id,输出字段】，例如：2,1,subtitle;第三个参数不指定模式title</div>
+							 <div class="layui-form-mid layui-word-aux">只在类型为单选或多选时填写有效。不再区分专题页和列表页
+								 <p style="color: red;">关联字段需输入【关联的模型id,关联的栏目id,输出字段】，例如：2,1,subtitle;第三个参数不指定模式title</p>
+								 <p style="color: red;">关联字段，如果填写了第三个参数，如果结果中某一条指定的字段为空，那这一条则不显示，例如指定subtitle，某条数据没有则跳过这条内容</p>
+							 </div>
 	                     </div>
 	                </div>
 	                
@@ -213,7 +216,10 @@
                      <label class="layui-form-label">选择按钮值</label>
                      <div class="layui-input-block">
                      	<textarea name="value" placeholder="多个选项用逗号或回车隔开"  class="layui-textarea">{$extfield->value}</textarea>
-                     	<div class="layui-form-mid layui-word-aux">只在类型为单选或多选时填写有效，多个选项用逗号或回车隔开。<span style="color: red;">关联字段需输入关联字段需输入【关联的模型id,关联的栏目id,输出字段】，例如：2,1,subtitle;第三个参数不指定模式title</div>
+						 <div class="layui-form-mid layui-word-aux">只在类型为单选或多选时填写有效。不再区分专题页和列表页
+							 <p style="color: red;">关联字段需输入【关联的模型id,关联的栏目id,输出字段】，例如：2,1,subtitle;第三个参数不指定模式title</p>
+							 <p style="color: red;">关联字段，如果填写了第三个参数，如果结果中某一条指定的字段为空，那这一条则不显示，例如指定subtitle，某条数据没有则跳过这条内容</p>
+						 </div>
                      </div>
                 </div>
                 

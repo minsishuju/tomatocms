@@ -460,17 +460,23 @@
 												}
 												$("#[value->name]-value").val(str);
 											},
-											data: [
-												{php}
+
+											data: [ {php}
 												$related=explode(',',$value->value);
-											$contents = get_list($related[0],$related[1]);
-											$name=$value->name;
-											$values=explode(',',$this->vars['content']->$name);
-										foreach ($contents as $value2) {
-											echo '{name: "'.$value2->title.'", value: "'.$value2->id.'"},';
-										}
-										{/php}
-										]
+												$contents = get_list($related[0],$related[1]);
+												if(array_key_exists("2",$related)){
+													foreach ($contents as $value2) {
+														$value2=(array)$value2;
+														if($value2[$related[2]]){
+															echo '{name: "'.$value2[$related[2]].'", value: "'.$value2["id"].'"},';
+														}
+													}
+												}else{
+													foreach ($contents as $value2) {
+														echo '{name: "'.$value2->title.'", value: "'.$value2->id.'"},';
+													}
+												}
+												{/php} ]
 										})
 									</script>
 								</div>
@@ -996,23 +1002,27 @@
 												}
 												$("#[value->name]-value").val(str);
 											},
-											initValue: [
-												{php}
+											initValue: [{php}
 												$name2=$value->name;
-											echo $this->vars['content']->$name2;
-										{/php}
-										],
-											data: [
-												{php}
+												echo $this->vars['content']->$name2;
+											{/php}],
+
+											data: [{php}
 												$related=explode(',',$value->value);
-											$contents = get_list($related[0],$related[1]);
-											$name=$value->name;
-											$values=explode(',',$this->vars['content']->$name);
-											foreach ($contents as $value2) {
-											echo '{name: "'.$value2->title.'", value: "'.$value2->id.'"},';
-										}
-											{/php}
-											]
+												$contents = get_list($related[0],$related[1]);
+												if(array_key_exists("2",$related)){
+													foreach ($contents as $value2) {
+														$value2=(array)$value2;
+														if($value2[$related[2]]){
+															echo '{name: "'.$value2[$related[2]].'", value: "'.$value2["id"].'"},';
+														}
+													}
+												}else{
+													foreach ($contents as $value2) {
+														echo '{name: "'.$value2->title.'", value: "'.$value2->id.'"},';
+													}
+												}
+											{/php}]
 											})
 									</script>
 								</div>
