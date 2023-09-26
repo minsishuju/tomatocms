@@ -176,7 +176,7 @@ class TomatoExtensionController extends ParserController
                 // 获取调节参数
                 $params = $this->parserParam($matches[1][$i]);
                 $id = - 1;
-                // 跳过未指定scode的列表
+                // 跳过未指定id的文章
                 if (! array_key_exists('id', $params)) {
                     continue;
                 }
@@ -184,11 +184,14 @@ class TomatoExtensionController extends ParserController
                     $content = str_replace($matches[0][$i], '', $content);
                     continue;
                 }
-                // 分离分类编码
+                // 分离相关参数
                 foreach ($params as $key => $value) {
                     switch ($key) {
                         case 'id':
                             $id = $value;
+                            break;
+                        case 'num':
+                            $num=(int)$value;
                             break;
                     }
                 }
@@ -197,11 +200,13 @@ class TomatoExtensionController extends ParserController
                 }else{$ids=explode(",",trim($id,","));}
                 if($id!='-1' && count($ids)>0)
                 {
-                    // 循环读取一个或多个文章数据
-                    for ($ii=0; $ii < count($ids); $ii++) {
+                    $limit=($num>0 && $num<count($ids))?$num:count($ids);
+                    // 循环读取文章数据
+                    for ($ii=0; $ii < $limit; $ii++) {
                         $data[$ii] = $this->model->getContent(escape_string($ids[$ii]));
                     }
                 }
+
                 if (! $data) {
                     $content = str_replace($matches[0][$i], '', $content);
                     continue;
