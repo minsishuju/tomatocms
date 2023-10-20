@@ -180,9 +180,8 @@
                             </td>
                             <td>
                                 {fun=get_btn('修改','','submod',$value->id.'/gid/'.$value->gid)}
-                                <!-- {fun=get_btn('删除','layui-btn-danger','subdel',$value->id.'/gid/'.$value->gid)} -->
-                                <a href='javascript:confirm_delete("{url./admin/SlideSort/subdel/id/'.$value->id.'/gid/'.$value->gid.'}")' class="layui-btn layui-btn-xs layui-btn-danger" style="margin-bottom:0px" title="删除">删除</a>
-                            </td>
+                                {fun=get_btn_del($value->id.'/gid/'.$value->gid,'id','删除','subdel')}
+                             </td>
                         </tr>
                         {/foreach}
                         </tbody>

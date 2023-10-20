@@ -122,13 +122,11 @@ function get_btn_more($idValue, $id = 'id', $btnName = '详情')
     return $btn_html;
 }
 
-// 获取删除按钮
-function get_btn_del($idValue, $id = 'id', $btnName = '删除')
+// 获取删除按钮function get_btn_del($idValue, $id = 'id', $btnName = '删除',$action='del')
 {
     $user_level = session('levels');
-    if (! in_array('/' . M . '/' . C . '/del', $user_level) && session('id') != 1)
-        return;
-    $btn_html = "<a href='" . url('/' . M . '/' . C . "/del/$id/$idValue") . "' onclick='return confirm(\"您确定要删除么？\")' class='layui-btn layui-btn-xs layui-btn-danger' title='$btnName'>$btnName</a>";
+    if (! in_array('/' . M . '/' . C . '/'.$action, $user_level) && session('id') != 1)  return;
+    $btn_html = "<a href='" . url('/' . M . '/' . C . '/'.$action."/$id/$idValue") . "' onclick='return confirm(\"您确定要删除么？\")' class='layui-btn layui-btn-xs layui-btn-danger' title='$btnName'>$btnName</a>";
     return $btn_html;
 }
 
