@@ -122,7 +122,8 @@ function get_btn_more($idValue, $id = 'id', $btnName = '详情')
     return $btn_html;
 }
 
-// 获取删除按钮function get_btn_del($idValue, $id = 'id', $btnName = '删除',$action='del')
+// 获取删除按钮
+function get_btn_del($idValue, $id = 'id', $btnName = '删除',$action='del')
 {
     $user_level = session('levels');
     if (! in_array('/' . M . '/' . C . '/'.$action, $user_level) && session('id') != 1)  return;
